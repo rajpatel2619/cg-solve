@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Digital Clock</title>
+    <style>
+        body {
+
+            height: 300px;
+            position: absolute;
+            left: 30%;
+            top: 20%;
+        }
+
+        button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 0 20px;
+            background: grey;
+            color: white;
+        }
+
+        input {
+            margin-left: 40px;
+        }
+
+        #sec2 {
+            margin-top: 40px;
+            border: 2px solid black;
+        }
+
+        #sec3 {
+            display: flex;
+            flex-flow: wrap;
+            float: left;
+        }
+
+        #clock,
+        #alarmclock {
+            font-size: 120px;
+            width: 480px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .showalarm {
+            width: 220px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .highlight{
+            color: teal;
+        }
+    </style>
+</head>
+
+<body onload="setMode()">
+    <section>
+        <button id="btn1" onclick="setAlarm(); setAlarmMode();">Hours/Minute</button>
+        <button id="btn2" onclick="setAlarm(); updateValuePlus();">+</button>
+        <button id="btn3" onclick="setAlarm(); updateValueMinus();">-</button>
+        <input type="radio" onclick="setMode(); " value="set" name="mode" id="set">Set
+        <input type="radio" onclick="setMode(); " value="run" name="mode" id="run" checked>Run
+    </section>
+    <section id="sec2">
+        <div id="clock"></div>
+        <div id="alarmclock" class="hide">
+            <span id="mmh">12</span>:
+            <span id="mmm">00</span>
+            <div style="display: none;">
+                <input type="radio" name="mm" checked value="12">
+                <input type="radio" name="mm" value="00">
+            </div>
+        </div>
+
+    </section>
+    <section id="sec3">
+        <div class="showalarm" id="alarm1">
+            <h1>Alarm 1</h1>
+            <span id="mmh1">12</span>:
+            <span id="mmm1">00</span>
+            <input type="radio" onclick="ActiveOne()" name="alarm" checked>
+        </div>
+        <div class="showalarm" id="alarm2">
+            <h1>Alarm 2</h1>
+            <span id="mmh2">12</span>:
+            <span id="mmm2">00</span>
+            <input type="radio" name="alarm" onclick="ActiveTwo()" checked>
+        </div>
+    </section>
+    <script>
+        let hour = 00;
+        let min = 00;
+        let alarm1;
+        let alarm2;
+        var btn1 = document.getElementById("btn1");
+        var btn2 = document.getElementById("btn2");
+        var btn3 = document.getElementById("btn3");
+
+        var mmht =document.getElementById("mmh");
+        var mmmt = document.getElementById("mmm");
+        var mmht1 =document.getElementById("mmh1");
+        var mmmt1 = document.getElementById("mmm1");
+        var mmht2 =document.getElementById("mmh2");
+        var mmmt2 = document.getElementById("mmm2");
+
+        var active_alarm = 2;
+
+        function ActiveOne(){
+            active_alarm=1
+        }
+        function ActiveTwo(){
+            active_alarm=2
+        }
+
+
+        var mmh = 12;
+        var mmm = 10;
+        var mmh1 = 12;
+        var mmm1 = 00;
+        var mmh2 = 12;
+        var mmm2 = 00;
+
+        mmh = parseInt(mmh);
+        mmm = parseInt(mmm);
+        var change_mode = "h";
+        mmht.classList.add("highlight");
+
+        function setAlarmMode() {
+            if (change_mode == "h"){
+                change_mode = "m"
+                mmmt.classList.add("highlight");
+                mmht.classList.remove("highlight");
+            }
+            else if(change_mode == "m"){
+                change_mode = "h"
+                mmmt.classList.remove("highlight");
+                mmht.classList.add("highlight");
+            }
+        }
+
+        function updateValuePlus() {
+            if (change_mode == 'h') {
+                if(mmh==23){
+                    mmh = 00;    
+                } else {
+                    mmh += 1;
+                }
+            } else if (change_mode == 'm') {
+                if(mmm==59){
+                    mmm = 00;    
+                } else {
+                    mmm += 1;
+                }
+            }
+
+            mmht.innerHTML = mmh;
+            mmmt.innerHTML = mmm;
+            if(active_alarm==1){
+                mmht1.innerHTML = mmh;
+                mmmt1.innerHTML = mmm;
+                
+            }else{
+                mmht2.innerHTML = mmh;
+                mmmt2.innerHTML = mmm;
+            }
+        }
+        
+        function updateValueMinus() {
+            if (change_mode == 'h') {
+                if(mmh==0){
+                    mmh = 23;
+                } else {
+                    mmh -= 1;
+                }
+            } else if (change_mode == 'm') {
+                if(mmm==00){
+                    mmm = 59;    
+                } else {
+                    mmm -= 1;
+                }
+            }
+
+            mmht.innerHTML = mmh;
+            mmmt.innerHTML = mmm;
+            if(active_alarm==1){
+                mmht1.innerHTML = mmh;
+                mmmt1.innerHTML = mmm;
+                
+            }else{
+                mmht2.innerHTML = mmh;
+                mmmt2.innerHTML = mmm;
+            }
+        }
+
+      
+
+
+        function showTime() {
+            let time = new Date();
+            let hour = time.getHours();
+            let min = time.getMinutes();
+            if (hour == 0) {
+                hr = 12;
+            }
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            let currentTime = hour + ":"
+                + min;
+            document.getElementById("clock")
+                .innerHTML = currentTime;
+            if (currentTime == alarm1 || currentTime == alarm2) {
+                alert("Tring Tring");
+            }
+        }
+        
+        function setAlarm() {
+            if (document.getElementById('alarm1').checked) {
+                alarm1 = hour + ":"
+                    + min;
+                document.getElementById("alarmclock")
+                    .innerHTML = alarm1;
+            } else if (document.getElementById('alarm2').checked) {
+                hour = document.getElementById('hour2').value;
+                min = document.getElementById('minute1').value;
+                alarm2 = hour + ":"
+                    + min;
+                document.getElementById("alarmclock")
+                    .innerHTML = alarm2;
+            }
+        }
+
+        function setMode() {
+            var clock = document.getElementById("clock");
+            var alarmClock = document.getElementById("alarmclock");
+            if (document.getElementById('set').checked) {
+                clock.classList.add("hide");
+                alarmClock.classList.remove("hide");
+                btn1.disabled = false;
+                btn2.disabled = false;
+                btn3.disabled = false;
+                setAlarm();
+            } else if (document.getElementById('run').checked) {
+                alarmClock.classList.add("hide");
+                clock.classList.remove("hide");
+                btn1.disabled = true;
+                btn2.disabled = true;
+                btn3.disabled = true;
+                setInterval(showTime, 1000);
+            }
+        }
+
+
+     
+
+    </script>
+</body>
+
+</html>

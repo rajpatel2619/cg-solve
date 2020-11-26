@@ -1,0 +1,30 @@
+body{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}
+.main-box{
+    border: 2px solid red;
+    width: 350px;
+}
+
+.control-box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.alarm-box{
+    display: flex;
+}
+
+.clock {
+    
+    font-size: 60px;
+    font-family: 'Righteous', cursive;
+    letter-spacing: 5px;
+}
+
+.hide{
+    display: none;
+}
+

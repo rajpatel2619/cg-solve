@@ -1,0 +1,4 @@
+india,2000   
+pakistan , 100
+ijidjfi ,     300
+dkjfdsk , 400

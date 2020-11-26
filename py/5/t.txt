@@ -1,0 +1,2 @@
+india,2000   
+pakistan , 100
